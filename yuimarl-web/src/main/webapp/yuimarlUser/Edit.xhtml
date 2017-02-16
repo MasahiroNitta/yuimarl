@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    template="/main/template.xhtml"
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
+    xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="title">
+        <c:choose>
+            <c:when test="#{yuimarlUserController.modeCreate == false}">
+                <h:outputText value="#{bundle.EditUserTitle}"/>
+            </c:when>
+            <c:otherwise>
+                <h:outputText value="#{bundle.CreateUserTitle}"/>
+            </c:otherwise>
+        </c:choose>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form prependId="false">
+            <div class="menu">
+                <div class="h_right">
+                    <ul>
+                        <li><h:commandLink action="/main/index" value="メインメニュー" immediate="true" /></li>
+                        <li><h:commandLink action="#{yuimarlUserController.prepareList}" value="${bundle.UserTitle}" immediate="true" /></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="messages">
+                <h:messages showSummary="true" 
+                            showDetail="false"
+                            errorStyle="color: #d20005" 
+                            infoStyle="color: blue"/>
+            </div>
+            <div class="area1">
+                <div class="form1">
+                    <c:if test="#{yuimarlUserController.modeCreate == false}" >
+                        <div class="formLine">
+                            <div class="formLabel">
+                                <label><h:outputText value="#{bundle.UserTitle_userNo}"/></label>
+                            </div>
+                            <div class="formValue">
+                                <h:outputText value="#{yuimarlUserController.selected.userNo}"/>
+                            </div>
+                        </div>
+                    </c:if>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.UserTitle_userID}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:inputText id="lastName" maxlength="10" style="width: 100px;" value="#{yuimarlUserController.selected.userId}" required="true" requiredMessage="#{bundle.UserRequiredMessage_userID}" p:required="required"/>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.UserTitle_password}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:inputText id="password1" p:type="password" maxlength="10" style="width: 100px;" value="#{yuimarlUserController.password1}" p:required="required"/>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.UserTitle_passwordAgain}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:inputText id="password2" p:type="password" maxlength="10" style="width: 100px;" value="#{yuimarlUserController.password2}" p:required="required"/>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.UserTitle_partyNo}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:inputText id="partyNo" p:type="number" p:min="1" maxlength="10" style="width: 100px;" value="#{yuimarlUserController.partyNo}" p:required="required"/> 
+                            <h:commandButton value="#{bundle.SearchLink}">
+                                <f:ajax execute="partyNo" render="partyName" />
+                            </h:commandButton>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.UserTitle_partyName}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText id="partyName" value="#{yuimarlUserController.partyName}"/>
+                        </div>
+                    </div>
+                    <c:if test="#{yuimarlUserController.modeCreate == false}" >
+                        <div class="formLine">
+                            <div class="formLabel">
+                                <label><h:outputText value="#{bundle.PartyTitle_registTime}"/></label>
+                            </div>
+                            <div class="formValue">
+                                <h:outputText value="#{yuimarlUserController.selected.registTime}">
+                                    <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss" timeZone="#{bundle.timeZone}" />
+                                </h:outputText>
+                            </div>
+                        </div>
+                        <div class="formLine">
+                            <div class="formLabel">
+                                <label><h:outputText value="#{bundle.PartyTitle_registUser}"/></label>
+                            </div>
+                            <div class="formValue">
+                                <h:outputText value="#{yuimarlUserController.selected.registUser.userId} "/><h:outputText value="#{yuimarlUserController.selected.registUser.party.name}"/>
+                            </div>
+                        </div>
+                        <div class="formLine">
+                            <div class="formLabel">
+                                <label><h:outputText value="#{bundle.PartyTitle_updateTime}"/></label>
+                            </div>
+                            <div class="formValue">
+                                <h:outputText value="#{yuimarlUserController.selected.updateTime}">
+                                    <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss" timeZone="#{bundle.timeZone}" />
+                                </h:outputText>
+                            </div>
+                        </div>
+                        <div class="formLine">
+                            <div class="formLabel">
+                                <label><h:outputText value="#{bundle.PartyTitle_updateUser}"/></label>
+                            </div>
+                            <div class="formValue">
+                                <h:outputText value="#{yuimarlUserController.selected.updateUser.userId} "/><h:outputText value="#{yuimarlUserController.selected.updateUser.party.name}"/>
+                            </div>
+                        </div>
+                    </c:if>
+                </div>
+                <p>
+                    <c:choose>
+                        <c:when test="#{yuimarlUserController.modeCreate == false}">
+                            <h:commandButton value="#{bundle.UpdateLink}" action="#{yuimarlUserController.update}"/>
+                        </c:when>
+                        <c:otherwise>
+                            <h:commandButton value="#{bundle.CreateLink}" action="#{yuimarlUserController.create}"/>
+                        </c:otherwise>
+                    </c:choose>
+                </p>
+            </div>
+        </h:form>
+    </ui:define> 
+
+</ui:composition>

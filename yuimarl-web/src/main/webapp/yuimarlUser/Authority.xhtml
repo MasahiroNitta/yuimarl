@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    template="/main/template.xhtml"
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
+    xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="title">
+        <h:outputText value="#{bundle.ViewUserTitle}"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form prependId="false">
+            <div class="menu">
+                <div class="h_right">
+                    <ul>
+                        <li><h:commandLink action="/main/index" value="メインメニュー" immediate="true" /></li>
+                        <li><h:commandLink action="List" value="${bundle.ListUserTitle}" immediate="true" /></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="messages">
+                <h:messages showSummary="true" 
+                            showDetail="false"
+                            errorStyle="color: #d20005" 
+                            infoStyle="color: blue"/>
+            </div>
+            <div class="area1">
+                <div class="form1">
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.UserTitle_userNo}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText value="#{yuimarlUserController.selected.userNo}"/>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.UserTitle_userID}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText value="#{yuimarlUserController.selected.userId}"/>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.UserTitle_partyNo}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText value="#{yuimarlUserController.selected.party.partyNo}"/>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.UserTitle_partyName}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText value="#{yuimarlUserController.selected.party.name}"/>
+                        </div>
+                    </div>
+                    <hr/>
+                    <h3><h:outputText value="#{bundle.UserAuthorityTitle}"/></h3>
+                    <table class="tb1">
+                        <tr>
+                            <td></td>
+                            <td><h:outputText value="#{bundle.ViewLink}"/></td>
+                            <td><h:outputText value="#{bundle.CreateLink}"/></td>
+                            <td><h:outputText value="#{bundle.ModifyLink}"/></td>
+                            <td><h:outputText value="#{bundle.DestroyLink}"/></td>
+                        </tr>
+                        <tr>
+                            <td><h:outputText value="#{bundle.UserPassword}"/></td>
+                            <td></td>
+                            <td></td>
+                            <td><h:selectBooleanCheckbox value="#{yuimarlUserController.authPw}"/></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><h:outputText value="#{bundle.UserTitle}"/></td>
+                            <td><h:selectBooleanCheckbox value="#{yuimarlUserController.auth1V}"/></td>
+                            <td><h:selectBooleanCheckbox value="#{yuimarlUserController.auth1C}"/></td>
+                            <td><h:selectBooleanCheckbox value="#{yuimarlUserController.auth1U}"/></td>
+                            <td><h:selectBooleanCheckbox value="#{yuimarlUserController.auth1D}"/></td>
+                        </tr>
+                        <tr>
+                            <td><h:outputText value="#{bundle.UserAuthorityTitle}"/></td>
+                            <td><h:selectBooleanCheckbox value="#{yuimarlUserController.auth2V}"/></td>
+                            <td></td>
+                            <td><h:selectBooleanCheckbox value="#{yuimarlUserController.auth2U}"/></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><h:outputText value="#{bundle.GoodsCategoryTitle}"/></td>
+                            <td><h:selectBooleanCheckbox value="#{yuimarlUserController.auth3V}"/></td>
+                            <td></td>
+                            <td><h:selectBooleanCheckbox value="#{yuimarlUserController.auth3U}"/></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><h:outputText value="#{bundle.PartyTitle}"/></td>
+                            <td><h:selectBooleanCheckbox value="#{yuimarlUserController.auth4V}"/></td>
+                            <td><h:selectBooleanCheckbox value="#{yuimarlUserController.auth4C}"/></td>
+                            <td><h:selectBooleanCheckbox value="#{yuimarlUserController.auth4U}"/></td>
+                            <td><h:selectBooleanCheckbox value="#{yuimarlUserController.auth4D}"/></td>
+                        </tr>
+                    </table>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.PartyTitle_registTime}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText value="#{yuimarlUserController.authRegTime}">
+                                <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss" timeZone="#{bundle.timeZone}" />
+                            </h:outputText>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.PartyTitle_registUser}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText value="#{yuimarlUserController.authRegUser}"/>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.PartyTitle_updateTime}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText value="#{yuimarlUserController.authUpdTime}">
+                                <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss" timeZone="#{bundle.timeZone}" />
+                            </h:outputText>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.PartyTitle_updateUser}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText value="#{yuimarlUserController.authUpdUser}"/>
+                        </div>
+                    </div>
+                </div>
+                <p>
+                    <c:choose>
+                        <c:when test="#{loginController.authUserAuthUpdate == false}">
+                        </c:when>
+                        <c:when test="#{yuimarlUserController.modeUpdate}">
+                            <h:commandButton value="#{bundle.UpdateLink}" action="#{yuimarlUserController.authUpdate}"/>
+                        </c:when>
+                    </c:choose>
+                </p>
+            </div>
+        </h:form>
+    </ui:define> 
+
+</ui:composition>

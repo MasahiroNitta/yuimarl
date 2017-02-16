@@ -1,0 +1,431 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    template="/main/templateEditor.xhtml"
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
+    xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="title">
+        <c:choose>
+            <c:when test="#{partyController.partyType == '2'}">
+                <h:outputText value="#{bundle.ViewOrganizationTitle}"/>
+            </c:when>
+            <c:when test="#{partyController.partyType == '3'}">
+                <h:outputText value="#{bundle.ViewCorporationTitle}"/>
+            </c:when>
+            <c:when test="#{partyController.partyType == '4'}">
+                <h:outputText value="#{bundle.ViewGoodsTitle}"/>
+            </c:when>
+            <c:otherwise>
+                <h:outputText value="#{bundle.ViewPersonTitle}"/>
+            </c:otherwise>
+        </c:choose>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form prependId="false">
+            <div class="menu">
+                <h1>
+                    <h:outputText value="#{partyController.selected.name}"/>
+                </h1>
+                <div class="h_right">
+                    <ul>
+                        <li><h:commandLink action="/main/index" value="メインメニュー" immediate="true" /></li>
+                        <li><h:commandLink action="#{partyController.prepareList}" value="${bundle.ListPartyTitle}" immediate="true" /></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="messages">
+                <h:messages showSummary="true" 
+                            showDetail="false"
+                            errorStyle="color: #d20005" 
+                            infoStyle="color: blue"/>
+            </div>
+            <div class="area1">
+                <div class="form1">
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.PartyTitle_partyNo}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText value="#{partyController.selected.partyNo}"/>
+                        </div>
+                    </div>
+                    <c:choose>
+                        <c:when test="#{partyController.partyType == '1'}">
+                            <div class="formLine">
+                                <div class="formLabel">
+                                    <label><h:outputText value="#{bundle.PartyTitle_lastName}"/></label>
+                                </div>
+                                <div class="formValue">
+                                    <h:outputText value="#{partyController.selected.lastName}"/>
+                                </div>
+                            </div>
+                            <div class="formLine">
+                                <div class="formLabel">
+                                    <label><h:outputText value="#{bundle.PartyTitle_firstName}"/></label>
+                                </div>
+                                <div class="formValue">
+                                    <h:outputText value="#{partyController.selected.firstName}"/>
+                                </div>
+                            </div>
+                            <div class="formLine">
+                                <div class="formLabel">
+                                    <label><h:outputText value="#{bundle.PartyTitle_lastNameKana}"/></label>
+                                </div>
+                                <div class="formValue">
+                                    <h:outputText value="#{partyController.selected.lastNameKana}"/>
+                                </div>
+                            </div>
+                            <div class="formLine">
+                                <div class="formLabel">
+                                    <label><h:outputText value="#{bundle.PartyTitle_firstNameKana}"/></label>
+                                </div>
+                                <div class="formValue">
+                                    <h:outputText value="#{partyController.selected.firstNameKana}"/>
+                                </div>
+                            </div>
+                            <div class="formLine">
+                                <div class="formLabel">
+                                    <label><h:outputText value="#{bundle.PartyTitle_gender}"/></label>
+                                </div>
+                                <div class="formValue">
+                                    <h:outputText value="#{partyController.selected.genderAsString}"/>
+                                </div>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="formLine">
+                                <div class="formLabel">
+                                    <label><h:outputText value="#{bundle.PartyTitle_name}"/></label>
+                                </div>
+                                <div class="formValue">
+                                    <h:outputText value="#{partyController.selected.name}"/>
+                                </div>
+                            </div>
+                            <div class="formLine">
+                                <div class="formLabel">
+                                    <label><h:outputText value="#{bundle.PartyTitle_nameKana}"/></label>
+                                </div>
+                                <div class="formValue">
+                                    <h:outputText value="#{partyController.selected.nameKana}"/>
+                                </div>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.PartyTitle_zipCode}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText value="#{partyController.selected.address.zipCode}"/>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.PartyTitle_prefecture}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText value="#{partyController.selected.address.prefectureName}"/>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.PartyTitle_city}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText value="#{partyController.selected.address.city}"/>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.PartyTitle_address1}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText value="#{partyController.selected.address.address1}"/>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.PartyTitle_address2}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText value="#{partyController.selected.address.address2}"/>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.PartyTitle_phoneNo}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText value="#{partyController.selected.phoneNo}"/>
+                        </div>
+                    </div>
+                    <c:if test="#{partyController.partyType == '1'}" >
+                        <div class="formLine">
+                            <div class="formLabel">
+                                <label><h:outputText value="#{bundle.PartyTitle_cellPhoneNumber}"/></label>
+                            </div>
+                            <div class="formValue">
+                                <h:outputText value="#{partyController.selected.cellPhoneNumber}"/>
+                            </div>
+                        </div>
+                    </c:if>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.PartyTitle_faxNo}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText value="#{partyController.selected.faxNo}"/>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.PartyTitle_mailAddress1}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText value="#{partyController.selected.mailAddress1}"/>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.PartyTitle_mailAddress2}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText value="#{partyController.selected.mailAddress2}"/>
+                        </div>
+                    </div>
+                    <c:choose>
+                        <c:when test="#{partyController.organization == true}">
+                            <c:if test="#{partyController.partyType == '3'}" >
+                                <div class="formLine">
+                                    <div class="formLabel">
+                                        <label><h:outputText value="#{bundle.PartyTitle_url}"/></label>
+                                    </div>
+                                    <div class="formValue">
+                                        <h:outputText value="#{partyController.selected.url}"/>
+                                    </div>
+                                </div>
+                            </c:if>
+                            <div class="formLine">
+                                <div class="formLabel">
+                                    <label><h:outputText value="#{bundle.PartyTitle_organizationCategory}"/></label>
+                                </div>
+                                <div class="formValue">
+                                    <h:outputText value="#{partyController.selected.categoryName}"/>
+                                </div>
+                            </div>
+                            <div class="formLine">
+                                <div class="formLabel">
+                                    <label><h:outputText value="#{bundle.PartyTitle_personCount}"/></label>
+                                </div>
+                                <div class="formValue">
+                                    <h:outputText value="#{partyController.selected.personCount}">
+                                        <f:convertNumber type="number" />
+                                    </h:outputText>
+                                </div>
+                            </div>
+                            <div class="formLine">
+                                <div class="formLabel">
+                                    <label><h:outputText value="#{bundle.PartyTitle_establishDate}"/></label>
+                                </div>
+                                <div class="formValue">
+                                    <h:outputText value="#{partyController.selected.startDate}">
+                                        <f:convertDateTime pattern="yyyy/MM/dd" timeZone="#{bundle.timeZone}" />
+                                    </h:outputText> <h:outputText value="  #{partyController.selected.startDateWareki}"/>
+                                </div>
+                            </div>
+                            <div class="formLine">
+                                <div class="formLabel">
+                                    <label><h:outputText value="#{bundle.PartyTitle_abolitionDate}"/></label>
+                                </div>
+                                <div class="formValue">
+                                    <h:outputText value="#{partyController.selected.endDate}">
+                                        <f:convertDateTime pattern="yyyy/MM/dd" timeZone="#{bundle.timeZone}" />
+                                    </h:outputText> <h:outputText value="  #{partyController.selected.endDateWareki}"/>
+                                </div>
+                            </div>
+                            <c:if test="#{partyController.partyType == '3'}" >
+                                <div class="formLine">
+                                    <div class="formLabel">
+                                        <label><h:outputText value="#{bundle.PartyTitle_capital}"/></label>
+                                    </div>
+                                    <div class="formValue">
+                                        <h:outputText value="#{partyController.selected.capital}">
+                                            <f:convertNumber type="number" />
+                                        </h:outputText>
+                                    </div>
+                                </div>
+                                <div class="formLine">
+                                    <div class="formLabel">
+                                        <label><h:outputText value="#{bundle.PartyTitle_accountMonth}"/></label>
+                                    </div>
+                                    <div class="formValue">
+                                        <h:outputText value="#{partyController.selected.accountMonth}">
+                                            <f:convertNumber type="number" />
+                                        </h:outputText>
+                                    </div>
+                                </div>
+                                <div class="formLine">
+                                    <div class="formLabel">
+                                        <label><h:outputText value="#{bundle.PartyTitle_partner}"/></label>
+                                    </div>
+                                    <div class="formValue">
+                                        <h:outputText value="#{partyController.selected.partnerAsString}"/>
+                                    </div>
+                                </div>
+                                <c:if test="#{partyController.selected.partnerFlg == '1'}" >
+                                    <hr/>
+                                    <h2 style="margin: 0;">銀行口座</h2>
+                                    <div class="formLine">
+                                        <div class="formLabel">
+                                            <label><h:outputText value="#{bundle.PartyTitle_bank}"/></label>
+                                        </div>
+                                        <div class="formValue">
+                                            <h:outputText value="#{partyController.selected.bank}"/>
+                                        </div>
+                                    </div>
+                                    <div class="formLine">
+                                        <div class="formLabel">
+                                            <label><h:outputText value="#{bundle.PartyTitle_branch}"/></label>
+                                        </div>
+                                        <div class="formValue">
+                                            <h:outputText value="#{partyController.selected.branch}"/>
+                                        </div>
+                                    </div>
+                                    <div class="formLine">
+                                        <div class="formLabel">
+                                            <label><h:outputText value="#{bundle.PartyTitle_accountType}"/></label>
+                                        </div>
+                                        <div class="formValue">
+                                            <h:outputText value="#{partyController.selected.accountTypeAsString}"/>
+                                        </div>
+                                    </div>
+                                    <div class="formLine">
+                                        <div class="formLabel">
+                                            <label><h:outputText value="#{bundle.PartyTitle_account}"/></label>
+                                        </div>
+                                        <div class="formValue">
+                                            <h:outputText value="#{partyController.selected.account}"/>
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                    <div class="formLine">
+                                        <div class="formLabel">
+                                            <label><h:outputText value="#{bundle.PartyTitle_cutoff}"/></label>
+                                        </div>
+                                        <div class="formValue">
+                                            <h:outputText value="#{partyController.selected.cutoff}">
+                                                <f:convertNumber type="number" />
+                                            </h:outputText>
+                                        </div>
+                                    </div>
+                                </c:if>
+                            </c:if>
+                        </c:when>
+                        <c:when test="#{partyController.partyType == '1'}">
+                            <div class="formLine">
+                                <div class="formLabel">
+                                    <label><h:outputText value="#{bundle.PartyTitle_birthDay}"/></label>
+                                </div>
+                                <div class="formValue">
+                                    <h:outputText value="#{partyController.selected.startDate}">
+                                        <f:convertDateTime pattern="yyyy/MM/dd" timeZone="#{bundle.timeZone}" />
+                                    </h:outputText> <h:outputText value="  #{partyController.selected.startDateWareki}"/>
+                                </div>
+                            </div>
+                            <div class="formLine">
+                                <div class="formLabel">
+                                    <label><h:outputText value="#{bundle.PartyTitle_dateOfDeath}"/></label>
+                                </div>
+                                <div class="formValue">
+                                    <h:outputText value="#{partyController.selected.endDate}">
+                                        <f:convertDateTime pattern="yyyy/MM/dd" timeZone="#{bundle.timeZone}" />
+                                    </h:outputText> <h:outputText value="  #{partyController.selected.endDateWareki}"/>
+                                </div>
+                            </div>
+                        </c:when>
+                        <c:when test="#{partyController.partyType == '4'}">
+                            <div class="formLine">
+                                <div class="formLabel">
+                                    <label><h:outputText value="#{bundle.PartyTitle_category}"/></label>
+                                </div>
+                                <div class="formValue">
+                                    <h:outputText value="#{partyController.selected.categoryName}"/>
+                                </div>
+                            </div>
+                            <div class="formLine">
+                                <div class="formLabel">
+                                    <label><h:outputText value="#{bundle.PartyTitle_startDate}"/></label>
+                                </div>
+                                <div class="formValue">
+                                    <h:outputText value="#{partyController.selected.startDate}">
+                                        <f:convertDateTime pattern="yyyy/MM/dd" timeZone="#{bundle.timeZone}" />
+                                    </h:outputText> <h:outputText value="  #{partyController.selected.startDateWareki}"/>
+                                </div>
+                            </div>
+                            <div class="formLine">
+                                <div class="formLabel">
+                                    <label><h:outputText value="#{bundle.PartyTitle_endDate}"/></label>
+                                </div>
+                                <div class="formValue">
+                                    <h:outputText value="#{partyController.selected.endDate}">
+                                        <f:convertDateTime pattern="yyyy/MM/dd" timeZone="#{bundle.timeZone}" />
+                                    </h:outputText> <h:outputText value="  #{partyController.selected.endDateWareki}"/>
+                                </div>
+                            </div>
+                        </c:when>
+                    </c:choose>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.PartyTitle_memo}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <div id="memo-2" class="memoText"><h:outputText value="#{partyController.selected.memo}" escape="false"/></div>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.PartyTitle_registTime}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText value="#{partyController.selected.registTime}">
+                                <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss" timeZone="#{bundle.timeZone}" />
+                            </h:outputText>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.PartyTitle_registUser}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText value="#{partyController.selected.registUser.userId} "/><h:outputText value="#{partyController.selected.registUser.party.name}"/>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.PartyTitle_updateTime}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText value="#{partyController.selected.updateTime}">
+                                <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss" timeZone="#{bundle.timeZone}" />
+                            </h:outputText>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.PartyTitle_updateUser}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText value="#{partyController.selected.updateUser.userId} "/><h:outputText value="#{partyController.selected.updateUser.party.name}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define> 
+</ui:composition>

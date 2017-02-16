@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:util="http://java.sun.com/jsf/composite/util"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+    xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <h:form prependId="false">
+        <div class="login">
+            <h2 class="menu_h2">Yuimarl <h:outputText value="#{bundle.LoginTitle}"/></h2>
+            <p>Welcome to Yuimarl system!</p>
+            <p>
+                <label><h:outputText value="#{bundle.UserTitle_userID}"/>:</label><br/>
+                <input type="text" jsf:id="userid" name="userid" styleClass="input1"
+                       value="#{loginController.userId}" 
+                       required="required" title="Enter User ID." maxlength="10"/>
+            </p>
+            <p>
+                <label><h:outputText value="#{bundle.UserTitle_password}"/>:</label><br/>
+                <input type="password" jsf:id="password" name="password" styleClass="input1"
+                       value="#{loginController.password}" required="required"
+                       title="Enter password." maxlength="30"/>
+            </p>
+            <p style="margin-top: 15px;">
+                <h:commandButton value="#{bundle.LoginTitle}" 
+                                 action="#{loginController.login}"/>
+            </p>
+        </div>
+    </h:form> 
+    <div class="messagecolor">
+        <h:messages showSummary="true" 
+                    showDetail="false"
+                    errorStyle="color: #d20005" 
+                    infoStyle="color: blue"/>
+    </div>
+</ui:composition>

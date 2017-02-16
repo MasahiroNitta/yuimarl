@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    template="/main/template.xhtml"
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
+    xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="title">
+        <h:outputText value="#{bundle.PartyTitle} #{bundle.ListPartyTitle}"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form prependId="false">
+            <div class="menu">
+                <div class="h_right">
+                    <ul>
+                        <li><h:commandLink action="/main/index" value="メインメニュー" immediate="true" /></li>
+                        <c:if test="#{loginController.authPartyCreate}" >
+                            <li><h:commandLink action="#{partyController.preparePersonCreate}" value="${bundle.CreatePersonTitle}" immediate="true" /></li>
+                            <li><h:commandLink action="#{partyController.prepareOrganizationCreate}" value="${bundle.CreateOrganizationTitle}" immediate="true" /></li>
+                            <li><h:commandLink action="#{partyController.prepareCorporationCreate}" value="${bundle.CreateCorporationTitle}" immediate="true" /></li>
+                            <li><h:commandLink action="#{partyController.prepareGoodsCreate}" value="${bundle.CreateGoodsTitle}" immediate="true" /></li>
+                        </c:if>
+                    </ul>
+                </div>
+            </div>
+            <div class="messages">
+                <h:messages showSummary="true" 
+                            showDetail="false"
+                            errorStyle="color: #d20005" 
+                            infoStyle="color: blue"/>
+            </div>
+            <div class="area1">
+                <div class="searchBox">
+                    <div class="formLine">
+                        <div class="formLabel2">
+                            <label><h:outputText value="#{bundle.PartyTitle_partyNo}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:inputText id="searchPartyNo" p:type="number" maxlength="10" style="width: 60px;" value="#{partyController.searchPartyNo}"/>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel2">
+                            <label><h:outputText value="#{bundle.PartyTitle_name}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:inputText id="searchPartyName" maxlength="40" styleClass="input300" value="#{partyController.searchPartyName}"/>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel2">
+                            <label><h:outputText value="#{bundle.ListPartyTitle_partyType}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:selectManyCheckbox id="partyType" value="#{partyController.partyTypes}">
+                                <f:selectItems value="#{partyController.partyTypeList}"/>
+                            </h:selectManyCheckbox>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel2">
+                            <label></label>
+                        </div>
+                        <div class="formValue">
+                            <h:commandButton value="#{bundle.SearchLink}" action="#{partyController.search}"/>
+                        </div>
+                    </div>
+                </div>
+                <h:panelGroup rendered="#{partyController.items.rowCount > 0}">
+                    <h:panelGroup rendered="#{partyController.pagination.hasPluralPage}">
+                        <ul class="commandButtons">
+                            <li><h:commandLink action="#{partyController.pageTop}" value="&lt;&lt;" rendered="#{partyController.pagination.hasPreviousPage}"/></li>
+                            <li><h:commandLink action="#{partyController.pagePrevious}" value="&lt;" rendered="#{partyController.pagination.hasPreviousPage}"/></li>
+                            <li><h:commandLink action="#{partyController.pagePrevious2}" value="#{partyController.pagination.prev2PageNo}" rendered="#{partyController.pagination.hasPrevious2Page}"/></li>
+                            <li><h:commandLink action="#{partyController.pagePrevious}" value="#{partyController.pagination.prevPageNo}" rendered="#{partyController.pagination.hasPreviousPage}"/></li>
+                            <li><h:outputText value="#{partyController.pagination.curPageNo}" style="font-weight: bold;"/></li>
+                            <li><h:commandLink action="#{partyController.pageNext}" value="#{partyController.pagination.nextPageNo}" rendered="#{partyController.pagination.hasNextPage}"/></li>
+                            <li><h:commandLink action="#{partyController.pageNext2}" value="#{partyController.pagination.next2PageNo}" rendered="#{partyController.pagination.hasNext2Page}"/></li>
+                            <li><h:commandLink action="#{partyController.pageNext}" value="&gt;" rendered="#{partyController.pagination.hasNextPage}"/></li>
+                            <li><h:commandLink action="#{partyController.pageLast}" value="&gt;&gt;" rendered="#{partyController.pagination.hasNextPage}"/></li>
+                        </ul>
+                    </h:panelGroup>
+                    <div class="table-container">
+                        <h:dataTable styleClass="listTb" style="width: 600px;" value="#{partyController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" >
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListPartyTitle_partyNo}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.partyNo}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListPartyTitle_name}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.name}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListPartyTitle_prefecture}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.address.prefectureName}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListPartyTitle_city}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.address.city}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="#{bundle.ListPartyTitle_partyType}"/>
+                                </f:facet>
+                                <h:outputText value="#{item.partyTypeName}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value=" "/>
+                                </f:facet>
+                                <h:commandLink action="#{partyController.prepareView}" value="#{bundle.ViewLink}"/>
+                                <c:if test="#{loginController.authPartyUpdate}" >
+                                    <h:outputText value=" "/>
+                                    <h:commandLink action="#{partyController.prepareEdit}" value="#{bundle.EditLink}"/>
+                                </c:if>
+                                <c:if test="#{loginController.authPartyDelete}" >
+                                    <h:outputText value=" "/>
+                                    <h:commandLink action="#{partyController.destroy}" value="#{bundle.DestroyLink}" onclick="partyDelConf('#{item.name}')"/>
+                                </c:if>
+                                <h:outputText value=" "/>
+                                <h:commandLink action="#{partyController.prepareRelationList}" value="#{bundle.RelationLink}"/>
+                            </h:column>
+                        </h:dataTable>
+                    </div>
+                </h:panelGroup>
+            </div>
+            <h:inputHidden id="conf" value="#{partyController.conf}"/>
+        </h:form>
+        <script>
+            function partyDelConf(name) {
+                document.getElementById("conf").value = "0";
+                if (confirm(name + "を削除します。よろしいですか？")) {
+                    document.getElementById("conf").value = "1";
+                }
+            }
+        </script>
+    </ui:define> 
+
+</ui:composition>

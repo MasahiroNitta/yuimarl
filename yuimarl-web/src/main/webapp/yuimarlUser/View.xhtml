@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    template="/main/template.xhtml"
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
+    xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="title">
+        <h:outputText value="#{bundle.ViewUserTitle}"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form prependId="false">
+            <div class="menu">
+                <div class="h_right">
+                    <ul>
+                        <li><h:commandLink action="/main/index" value="メインメニュー" immediate="true" /></li>
+                        <li><h:commandLink action="List" value="${bundle.ListUserTitle}" immediate="true" /></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="messages">
+                <h:messages showSummary="true" 
+                            showDetail="false"
+                            errorStyle="color: #d20005" 
+                            infoStyle="color: blue"/>
+            </div>
+            <div class="area1">
+                <div class="form1">
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.UserTitle_userNo}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText value="#{yuimarlUserController.selected.userNo}"/>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.UserTitle_userID}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText value="#{yuimarlUserController.selected.userId}"/>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.UserTitle_partyNo}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText value="#{yuimarlUserController.selected.party.partyNo}"/>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.UserTitle_partyName}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText value="#{yuimarlUserController.selected.party.name}"/>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.PartyTitle_registTime}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText value="#{yuimarlUserController.selected.registTime}">
+                                <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss" timeZone="#{bundle.timeZone}" />
+                            </h:outputText>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.PartyTitle_registUser}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText value="#{yuimarlUserController.selected.registUser.userId} "/><h:outputText value="#{yuimarlUserController.selected.registUser.party.name}"/>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.PartyTitle_updateTime}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText value="#{yuimarlUserController.selected.updateTime}">
+                                <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss" timeZone="#{bundle.timeZone}" />
+                            </h:outputText>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.PartyTitle_updateUser}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText value="#{yuimarlUserController.selected.updateUser.userId} "/><h:outputText value="#{yuimarlUserController.selected.updateUser.party.name}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define> 
+</ui:composition>

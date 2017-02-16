@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    template="/main/template.xhtml"
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
+    xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="title">
+        <h:outputText value="#{bundle.UserTitle} #{bundle.ListPartyTitle}"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form prependId="false">
+            <h:outputScript library="js" name="list.js" target="head"/>
+            <div class="menu">
+                <div class="h_right">
+                    <ul>
+                        <li><h:commandLink action="/main/index" value="メインメニュー" immediate="true" /></li>
+                        <c:if test="#{loginController.authUserCreate}" >
+                            <li><h:commandLink action="#{yuimarlUserController.prepareCreate}" value="${bundle.CreateUserTitle}" immediate="true" /></li>
+                        </c:if>
+                    </ul>
+                </div>
+            </div>
+            <div class="messages">
+                <h:messages showSummary="true" 
+                            showDetail="false"
+                            errorStyle="color: #d20005" 
+                            infoStyle="color: blue"/>
+            </div>
+            <div class="area1">
+                <h:panelGroup rendered="#{yuimarlUserController.items.rowCount > 0}">
+                    <h:panelGroup rendered="#{yuimarlUserController.pagination.hasPluralPage}">
+                        <ul class="commandButtons">
+                            <li><h:commandLink action="#{yuimarlUserController.pageTop}" value="&lt;&lt;" rendered="#{yuimarlUserController.pagination.hasPreviousPage}"/></li>
+                            <li><h:commandLink action="#{yuimarlUserController.pagePrevious}" value="&lt;" rendered="#{yuimarlUserController.pagination.hasPreviousPage}"/></li>
+                            <li><h:commandLink action="#{yuimarlUserController.pagePrevious2}" value="#{yuimarlUserController.pagination.prev2PageNo}" rendered="#{yuimarlUserController.pagination.hasPrevious2Page}"/></li>
+                            <li><h:commandLink action="#{yuimarlUserController.pagePrevious}" value="#{yuimarlUserController.pagination.prevPageNo}" rendered="#{yuimarlUserController.pagination.hasPreviousPage}"/></li>
+                            <li><h:outputText value="#{yuimarlUserController.pagination.curPageNo}" style="font-weight: bold;"/></li>
+                            <li><h:commandLink action="#{yuimarlUserController.pageNext}" value="#{yuimarlUserController.pagination.nextPageNo}" rendered="#{yuimarlUserController.pagination.hasNextPage}"/></li>
+                            <li><h:commandLink action="#{yuimarlUserController.pageNext2}" value="#{yuimarlUserController.pagination.next2PageNo}" rendered="#{yuimarlUserController.pagination.hasNext2Page}"/></li>
+                            <li><h:commandLink action="#{yuimarlUserController.pageNext}" value="&gt;" rendered="#{yuimarlUserController.pagination.hasNextPage}"/></li>
+                            <li><h:commandLink action="#{yuimarlUserController.pageLast}" value="&gt;&gt;" rendered="#{yuimarlUserController.pagination.hasNextPage}"/></li>
+                        </ul>
+                    </h:panelGroup>
+                    <div class="table-container">
+                        <table class="listTb" style="width: 600px;">
+                            <tr>
+                                <th><h:outputText value="#{bundle.ListUserTitle_userNo}"/></th>
+                                <th><h:outputText value="#{bundle.ListUserTitle_userID}"/></th>
+                                <th><h:outputText value="#{bundle.ListUserTitle_partyNo}"/></th>
+                                <th><h:outputText value="#{bundle.ListUserTitle_partyName}"/></th>
+                                <th><h:outputText value=" "/></th>
+                            </tr>
+                            <c:forEach var="item" items="#{yuimarlUserController.userList}" varStatus="status">
+                                <c:choose>
+                                    <c:when test="${status.index % 2 == 0}">
+                                        <tr class="jsfcrud_odd_row">
+                                            <td><h:outputText value="#{item.userNo}"/></td>
+                                            <td><h:outputText value="#{item.userId}"/></td>
+                                            <td><h:outputText value="#{item.party.partyNo}"/></td>
+                                            <td><h:commandLink value="#{item.party.name}" onclick="setDlgPartyNo(#{item.party.partyNo})">
+                                                    <f:ajax event="click" execute="dlgPartyNo" render="partyJson" 
+                                                            listener="#{partyController.ajaxPartySearch}" onevent="showPartyDialog"/>
+                                                </h:commandLink></td>
+                                            <td><h:commandLink action="#{yuimarlUserController.prepareView}" value="#{bundle.ViewLink}" onclick="setLineNo(${status.index})"/>
+                                                <c:if test="#{loginController.authUserUpdate}" >
+                                                    <h:outputText value=" "/>
+                                                    <h:commandLink action="#{yuimarlUserController.prepareEdit}" value="#{bundle.EditLink}" onclick="setLineNo(${status.index})"/>
+                                                </c:if>
+                                                <c:if test="#{loginController.authUserDelete}" >
+                                                    <h:outputText value=" "/>
+                                                    <h:commandLink action="#{yuimarlUserController.destroy}" value="#{bundle.DestroyLink}" onclick="userDelConf(${status.index}, '${item.userId}')"/>
+                                                </c:if>
+                                                <c:if test="#{loginController.authUserAuthView}" >
+                                                    <h:outputText value=" "/>
+                                                    <h:commandLink action="#{yuimarlUserController.prepareAuth}" value="#{bundle.AuthLink}" onclick="setLineNo(${status.index})"/>
+                                                </c:if></td>
+                                        </tr>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <tr class="jsfcrud_even_row">
+                                            <td><h:outputText value="#{item.userNo}"/></td>
+                                            <td><h:outputText value="#{item.userId}"/></td>
+                                            <td><h:outputText value="#{item.party.partyNo}"/></td>
+                                            <td><h:commandLink value="#{item.party.name}" onclick="setDlgPartyNo(#{item.party.partyNo})">
+                                                    <f:ajax event="click" execute="dlgPartyNo" render="partyJson" 
+                                                            listener="#{partyController.ajaxPartySearch}" onevent="showPartyDialog"/>
+                                                </h:commandLink></td>
+                                            <td><h:commandLink action="#{yuimarlUserController.prepareView}" value="#{bundle.ViewLink}" onclick="setLineNo(${status.index})"/>
+                                                <c:if test="#{loginController.authUserUpdate}" >
+                                                    <h:outputText value=" "/>
+                                                    <h:commandLink action="#{yuimarlUserController.prepareEdit}" value="#{bundle.EditLink}" onclick="setLineNo(${status.index})"/>
+                                                </c:if>
+                                                <c:if test="#{loginController.authUserDelete}" >
+                                                    <h:outputText value=" "/>
+                                                    <h:commandLink action="#{yuimarlUserController.destroy}" value="#{bundle.DestroyLink}" onclick="userDelConf(${status.index}, '${item.userId}')"/>
+                                                </c:if>
+                                                <c:if test="#{loginController.authUserAuthView}" >
+                                                    <h:outputText value=" "/>
+                                                    <h:commandLink action="#{yuimarlUserController.prepareAuth}" value="#{bundle.AuthLink}" onclick="setLineNo(${status.index})"/>
+                                                </c:if></td>
+                                        </tr>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </table>
+                    </div>
+                </h:panelGroup>
+            </div>
+            <h:inputHidden id="lineNo" value="#{yuimarlUserController.lineNo}"/>
+            <h:inputHidden id="dlgPartyNo" value="#{partyController.dlgPartyNo}"/>
+            <h:inputHidden id="conf" value="#{yuimarlUserController.conf}"/>
+            <h:inputHidden id="partyJson" value="#{partyController.partyJson}"/>
+            <div id="partyViewDialog" title="" style="font-size: 13px;">
+            </div>
+        </h:form>
+    </ui:define> 
+
+</ui:composition>

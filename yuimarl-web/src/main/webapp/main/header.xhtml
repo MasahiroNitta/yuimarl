@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <h:form>
+        <div class="logoImg">
+            <h1><h:graphicImage id="mapImage" name="logo.gif" library="img" alt="" /><a name="#_top"></a></h1>
+        </div>
+        <div class="h_right">
+            <ul>
+                <li>#{bundle.Topbar_UserName_Label} #{loginController.userName}</li>
+                <li><h:commandLink class="h_logout" action="#{loginController.logout}" value="[#{bundle.Topbar_Logout_Label}]" /></li>
+            </ul>
+        </div>
+    </h:form> 
+</ui:composition>

@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    template="/main/templateEditor.xhtml"
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
+    xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="title">
+        <c:choose>
+            <c:when test="#{partyController.modeCreate == false}">
+                <h:outputText value="#{bundle.EditRelationTitle}"/>
+            </c:when>
+            <c:otherwise>
+                <h:outputText value="#{bundle.CreateRelationTitle}"/>
+            </c:otherwise>
+        </c:choose>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form prependId="false">
+            <h:outputScript library="js" name="party.js" target="head"/>
+            <div class="menu">
+                <div class="h_right">
+                    <ul>
+                        <li><h:commandLink action="/main/index" value="メインメニュー" immediate="true" /></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="messages">
+                <h:messages showSummary="true" 
+                            showDetail="false"
+                            errorStyle="color: #d20005" 
+                            infoStyle="color: blue"/>
+            </div>
+            <div class="area1">
+                <div class="form1">
+                    <c:if test="#{partyController.modeCreate == false}" >
+                        <div class="formLine">
+                            <div class="formLabel">
+                                <label><h:outputText value="#{bundle.ListPartyTitle_relationNo}"/></label>
+                            </div>
+                            <div class="formValue">
+                                <h:outputText value="#{partyController.relSelected.relationNo}"/>
+                            </div>
+                        </div>
+                    </c:if>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.PartyTitle_relationType}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:selectOneMenu id="relationType" value="#{partyController.relationType}">
+                                <f:selectItems value="#{partyController.relationTypeList}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label></label>
+                        </div>
+                        <div class="formValue">
+                            （Party1 ←→ Party2）
+                        </div>
+                    </div>
+                    <hr />
+                    <span style="font-weight: bold;">Party1:</span>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label>No.</label>
+                        </div>
+                        <div class="formValue">
+                            <h:inputText id="party1No" p:type="number" p:min="1" maxlength="10" style="width: 100px;" value="#{partyController.party1No}" p:required="required"/> 
+                            <h:commandButton value="#{bundle.SearchLink}">
+                                <f:ajax execute="party1No" render="party1Name" />
+                            </h:commandButton>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.PartyTitle_name}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText id="party1Name" value="#{partyController.party1Name}"/>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.ListPartyTitle_role}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:inputText id="role1" maxlength="30" style="width: 200px;" value="#{partyController.relSelected.role1}" p:required="required"/>
+                        </div>
+                    </div>
+                    <hr />
+                    <span style="font-weight: bold;">Party2:</span>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label>No.</label>
+                        </div>
+                        <div class="formValue">
+                            <h:inputText id="party2No" p:type="number" p:min="1" maxlength="10" style="width: 100px;" value="#{partyController.party2No}" p:required="required"/> 
+                            <h:commandButton value="#{bundle.SearchLink}">
+                                <f:ajax execute="party2No" render="party2Name" />
+                            </h:commandButton>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.PartyTitle_name}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:outputText id="party2Name" value="#{partyController.party2Name}"/>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.ListPartyTitle_role}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:inputText id="role2" maxlength="30" style="width: 200px;" value="#{partyController.relSelected.role2}" p:required="required"/>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.ListPartyTitle_startDate}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:inputText id="startDate" maxlength="10" style="width: 100px;" value="#{partyController.relSelected.termFrom}" p:placeholder="yyyy/MM/dd">
+                                <f:convertDateTime pattern="yyyy/MM/dd" timeZone="#{bundle.timeZone}" />
+                                <f:ajax event="change" render="termFromWareki"/>
+                            </h:inputText> <h:outputText id="termFromWareki" class="cellTitle" value="  #{partyController.relSelected.termFromWareki}"/>
+                        </div>
+                    </div>
+                    <div class="formLine">
+                        <div class="formLabel">
+                            <label><h:outputText value="#{bundle.ListPartyTitle_endDate}"/></label>
+                        </div>
+                        <div class="formValue">
+                            <h:inputText id="endDate" maxlength="10" style="width: 100px;" value="#{partyController.relSelected.termTo}" p:placeholder="yyyy/MM/dd">
+                                <f:convertDateTime pattern="yyyy/MM/dd" timeZone="#{bundle.timeZone}" />
+                                <f:ajax event="change" render="termToWareki"/>
+                            </h:inputText> <h:outputText id="termToWareki" class="cellTitle" value="  #{partyController.relSelected.termToWareki}"/>
+                        </div>
+                    </div>
+                    <c:if test="#{partyController.modeCreate == false}" >
+                        <div class="formLine">
+                            <div class="formLabel">
+                                <label><h:outputText value="#{bundle.PartyTitle_registTime}"/></label>
+                            </div>
+                            <div class="formValue">
+                                <h:outputText value="#{partyController.relSelected.registTime}">
+                                    <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss" timeZone="#{bundle.timeZone}" />
+                                </h:outputText>
+                            </div>
+                        </div>
+                        <div class="formLine">
+                            <div class="formLabel">
+                                <label><h:outputText value="#{bundle.PartyTitle_registUser}"/></label>
+                            </div>
+                            <div class="formValue">
+                                <h:outputText value="#{partyController.relSelected.registUser.userId} "/><h:outputText value="#{partyController.relSelected.registUser.party.name}"/>
+                            </div>
+                        </div>
+                        <div class="formLine">
+                            <div class="formLabel">
+                                <label><h:outputText value="#{bundle.PartyTitle_updateTime}"/></label>
+                            </div>
+                            <div class="formValue">
+                                <h:outputText value="#{partyController.relSelected.updateTime}">
+                                    <f:convertDateTime pattern="yyyy/MM/dd HH:mm:ss" timeZone="#{bundle.timeZone}" />
+                                </h:outputText>
+                            </div>
+                        </div>
+                        <div class="formLine">
+                            <div class="formLabel">
+                                <label><h:outputText value="#{bundle.PartyTitle_updateUser}"/></label>
+                            </div>
+                            <div class="formValue">
+                                <h:outputText value="#{partyController.relSelected.updateUser.userId} "/><h:outputText value="#{partyController.relSelected.updateUser.party.name}"/>
+                            </div>
+                        </div>
+                    </c:if>
+                </div>
+                <p>
+                    <c:choose>
+                        <c:when test="#{partyController.modeCreate == false}">
+                            <h:commandButton value="#{bundle.UpdateLink}" action="#{partyController.relUpdate}"/>
+                        </c:when>
+                        <c:otherwise>
+                            <h:commandButton value="#{bundle.CreateLink}" action="#{partyController.relCreate}"/>
+                        </c:otherwise>
+                    </c:choose>
+                </p>
+            </div>
+
+        </h:form>
+    </ui:define> 
+
+</ui:composition>

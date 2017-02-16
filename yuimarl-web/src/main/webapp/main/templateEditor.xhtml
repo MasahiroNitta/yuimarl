@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html lang="ja"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:fn="http://xmlns.jcp.org/jsp/jstl/functions" 
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <h:head>
+        <meta charset="utf-8"/>
+        <title><ui:insert name="title" /></title>
+        <meta name="viewport" content="width=device-width"/>
+        <link rel="stylesheet" type="text/css" href="../jquery/jquery-ui.min.css" />
+        <link rel="stylesheet" type="text/css" href="../dynatree/skin/ui.dynatree.css" />
+        <h:outputStylesheet library="css" name="style.css"/>
+        <script type="text/javascript" src="../ckeditor/ckeditor.js"></script>
+        <script type="text/javascript" src="../jquery/jquery.js"></script>
+        <script type="text/javascript" src="../jquery/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="../jquery/jquery.ui.datepicker-ja.js"></script>
+        <script type="text/javascript" src="../dynatree/jquery.dynatree.js"></script>
+    </h:head>
+    <c:choose>
+        <c:when test="#{fn:containsIgnoreCase(request.getHeader('User-Agent'), 'MSIE 6') ||
+                        fn:containsIgnoreCase(request.getHeader('User-Agent'), 'MSIE 7') ||
+                        fn:containsIgnoreCase(request.getHeader('User-Agent'), 'MSIE 8') ||
+                        fn:containsIgnoreCase(request.getHeader('User-Agent'), 'Firefox/3.2')}">
+            <h:body>
+                <h:panelGrid columns="1" id="browserCheck">        
+                    <h2>#{bundle.BrowserNotSupported}</h2><br />
+                    <strong>Browser Information: </strong>#{request.getHeader('User-Agent')}
+                </h:panelGrid>
+            </h:body>
+        </c:when>
+        <c:when test="#{loginController.logged == false}">
+            <h:body>
+                <ui:include src="../main/login.xhtml" />
+            </h:body>
+        </c:when>
+        <c:otherwise>
+            <h:body>
+                <div class="header">
+                    <ui:include src="../main/header.xhtml" />
+                </div>
+                <div id="under" class="under_content">
+                    <ui:insert name="content" />
+                </div>
+            </h:body>
+        </c:otherwise>
+    </c:choose>
+</html>

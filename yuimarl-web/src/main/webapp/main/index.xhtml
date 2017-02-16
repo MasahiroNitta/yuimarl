@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    template="/main/template.xhtml"
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
+    xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="title">
+        Yuimarl - Home
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <div class="mainMenu">
+                <div class="messages">
+                    <h:messages showSummary="true" 
+                                showDetail="false"
+                                errorStyle="color: #d20005" 
+                                infoStyle="color: blue"/>
+                </div>
+                <h2 class="menu_h2"><h:outputText value="#{bundle.MainMenuTitle}"/></h2>
+                <div class="container">
+                    <div class="idxCols">
+                        <div class="idxCol">
+                            <c:if test="#{loginController.authPartyView}" >
+                                <div class="subMenu">
+                                    <h1><h:outputText value="#{bundle.PartyTitle}"/></h1>
+                                    <ul>
+                                        <li><h:commandLink action="#{partyController.prepareList}" value="${bundle.ListPartyTitle}" /></li>
+                                        <c:if test="#{loginController.authPartyCreate}" >
+                                            <li><h:commandLink action="#{partyController.preparePersonCreate}" value="${bundle.CreatePersonTitle}" /></li>
+                                            <li><h:commandLink action="#{partyController.prepareOrganizationCreate}" value="${bundle.CreateOrganizationTitle}" /></li>
+                                            <li><h:commandLink action="#{partyController.prepareCorporationCreate}" value="${bundle.CreateCorporationTitle}" /></li>
+                                            <li><h:commandLink action="#{partyController.prepareGoodsCreate}" value="${bundle.CreateGoodsTitle}" /></li>
+                                        </c:if>
+                                    </ul>
+                                </div>
+                            </c:if>
+                            <c:if test="#{loginController.authSystemMenuView}" >
+                                <div class="subMenu">
+                                    <h1><h:outputText value="#{bundle.SystemManageTitle}"/></h1>
+                                    <ul>
+                                        <c:if test="#{loginController.authUserView}" >
+                                            <li><h:commandLink action="#{yuimarlUserController.prepareList}" value="${bundle.UserTitle}" /></li>
+                                        </c:if>
+                                        <c:if test="#{loginController.authGoodsCategoryView}" >
+                                            <li><h:commandLink action="#{goodsCategoryController.prepareEdit}" value="${bundle.GoodsCategoryTitle}" /></li>
+                                        </c:if>
+                                    </ul>
+                                </div>
+                            </c:if>
+                            <c:if test="#{loginController.authUserPassword}" >
+                                <div class="chgpass">
+                                    <h:commandLink action="#{changePasswordController.prepareEditPassword}" value="[${bundle.UserPassword}]"/>
+                                </div>
+                            </c:if>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </ui:define> 
+
+</ui:composition>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="setup_yuimarl_table" basedir=".">
+    <property name="property.dir" value="./property" />
+    <property name="sql.dir" value="./sql" />
+    <property name="data.dir" value="./xml" />
+    <!-- property file for Java DB -->
+    <property file="${property.dir}/javadb.properties" />
+    <taskdef name="dbunit" classname="org.dbunit.ant.DbUnitTask" />
+
+    <!-- create yuimarl Tables for Java DB -->
+    <target name="createJavaDB">
+        <sql driver="${db.driver}" encoding="UTF-8" url="${db.setup.url}"
+             userid="${db.user}" password="${db.password}"
+             autocommit="true" onerror="continue">
+            <transaction src="${sql.dir}/YUIMARL_JavaDB_DDL.sql" />
+        </sql>
+    </target>
+
+    <!-- DTD export -->
+    <target name="exportDtd">
+        <dbunit driver="${db.driver}" url="${db.setup.url}"
+                        userid="${db.user}" password="${db.password}">
+            <export dest="${data.dir}/yuimarl.dtd" format="dtd" />
+        </dbunit>
+    </target>
+
+    <!-- data export -->
+    <target name="exportAll">
+        <dbunit driver="${db.driver}" url="${db.setup.url}"
+                        userid="${db.user}" password="${db.password}">
+            <export dest="${data.dir}/YUIMARL_DB_EXPORT.xml" doctype="yuimarl.dtd"/>
+        </dbunit>
+    </target>
+
+    <!-- import initial data from xml file -->
+    <target name="importInitData">
+        <dbunit driver="${db.driver}" url="${db.setup.url}"
+                        userid="${db.user}" password="${db.password}">
+            <operation type="CLEAN_INSERT" src="${data.dir}/YUIMARL_DB_INIT_DATA.xml" />
+        </dbunit>
+    </target>
+
+    <!-- import data from exported xml file -->
+    <target name="importData">
+        <dbunit driver="${db.driver}" url="${db.setup.url}"
+                        userid="${db.user}" password="${db.password}">
+            <operation type="CLEAN_INSERT" src="${data.dir}/YUIMARL_DB_EXPORT.xml" />
+        </dbunit>
+    </target>
+</project>

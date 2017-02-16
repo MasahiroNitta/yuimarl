@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    template="template.xhtml"
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
+    xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="title">
+        <h:outputText value="#{bundle.GoodsCategoryTitle}"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form prependId="false">
+            <h:outputScript library="js" name="goodsCategory.js" target="head"/>
+            <div class="menu">
+                <div class="h_right">
+                    <ul>
+                        <li><h:commandLink action="/main/index" value="メインメニュー" immediate="true" /></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="messages">
+                <h:messages showSummary="true" 
+                            showDetail="false"
+                            errorStyle="color: #d20005" 
+                            infoStyle="color: blue"/>
+            </div>
+            <div class="area1">
+                <h2 class="menu_h2"><h:outputText value="#{bundle.GoodsCategoryTitle}"/></h2>
+                <div id="tree"><h:outputText value = "#{goodsCategoryController.treeTag}" escape="false" /></div>
+                <p>
+                    <h:inputHidden id="json" value = "#{goodsCategoryController.json}" />
+                    <c:if test="#{loginController.authGoodsCategoryUpdate}" >
+                        <h:commandButton value="#{bundle.SaveLink}" onclick="onSave()" action="#{goodsCategoryController.update}"/>
+                    </c:if>
+                </p>
+            </div>
+        </h:form>
+
+        <!-- ツリーを右クリックされた時に表示するコンテキストメニュー -->
+        <ul id="myMenu" class="contextMenu">
+            <li class="edit"><a href="#edit">Edit</a></li>
+            <li class="edit"><a href="#top">Add Top</a></li>
+            <li class="edit"><a href="#add">Add Child</a></li>
+            <li class="cut separator"><a href="#cut">Cut</a></li>
+            <li class="copy"><a href="#copy">Copy</a></li>
+            <li class="paste"><a href="#paste">Paste</a></li>
+            <li class="delete"><a href="#delete">Delete</a></li>
+            <li class="quit separator"><a href="#close">Close</a></li>
+        </ul>
+
+        <!-- コンテキストメニューで追加または編集を選択された時に表示されるダイアログ -->
+        <div id="dialog" title="#{bundle.GoodsCategoryTitle}" style="font-size: 13px;">
+            <table>
+                <tr>
+                    <td class="cellTitle"><h:outputText value="#{bundle.PartyTitle_name}"/></td>
+                    <td><input type="text" id="name" style="width: 300px;" /></td>
+                </tr>
+                <tr>
+                    <td class="cellTitle"><h:outputText value="#{bundle.PartyTitle_nameKana}"/></td>
+                    <td><input type="text" id="nameKana" style="width: 300px;" />
+                        <input type="hidden" id="categoryNo" />
+                        <input type="hidden" id="mode" /></td>
+                </tr>
+            </table>
+        </div>
+    </ui:define> 
+
+</ui:composition>
