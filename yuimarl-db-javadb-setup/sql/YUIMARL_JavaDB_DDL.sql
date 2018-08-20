@@ -31,14 +31,14 @@ CREATE TABLE YM_USER (
     PARTY               INTEGER,                    -- Party
     ACCOUNT_GROUP       VARCHAR(30),                -- アカウントグループ
     DEL_FLG             CHAR(1) DEFAULT '0',        -- 削除フラグ（1:削除済み）
-    REGIST_USER         INTEGER REFERENCES YM_USER(USER_NO),   -- 登録ユーザー(User No.)
+    REGIST_USER         INTEGER,                    -- 登録ユーザー(User No.)
     REGIST_TIME         TIMESTAMP,                  -- 登録日時
-    UPDATE_USER         INTEGER REFERENCES YM_USER(USER_NO),   -- 更新ユーザー(User No.)
+    UPDATE_USER         INTEGER,                    -- 更新ユーザー(User No.)
     UPDATE_TIME         TIMESTAMP,                  -- 更新日時
     AUTH_MAP            VARCHAR(30),                -- 権限マップ
-    AUTH_REGIST_USER    INTEGER REFERENCES YM_USER(USER_NO),   -- 権限登録ユーザー(User No.)
+    AUTH_REGIST_USER    INTEGER,                    -- 権限登録ユーザー(User No.)
     AUTH_REGIST_TIME    TIMESTAMP,                  -- 権限登録日時
-    AUTH_UPDATE_USER    INTEGER REFERENCES YM_USER(USER_NO),   -- 権限更新ユーザー(User No.)
+    AUTH_UPDATE_USER    INTEGER,                    -- 権限更新ユーザー(User No.)
     AUTH_UPDATE_TIME    TIMESTAMP,                  -- 権限更新日時
     VERSION_NO          INTEGER                     -- バージョン番号
 );
@@ -96,7 +96,7 @@ CREATE TABLE YM_PARTY (
     FIRST_NAME_KANA     VARCHAR(30),                -- 名ヨミ
     GENDER              INTEGER,                    -- 性別
     CELL_PHONE_NUMBER   VARCHAR(20),                -- 携帯電話番号
-    CATEGORY            INTEGER REFERENCES YM_ORG_CATEGORY(CATEGORY_NO), -- 組織種類
+    CATEGORY            INTEGER,                    -- 組織種類
     PERSON_COUNT        INTEGER,                    -- 所属者数
     URL                 VARCHAR(60),                -- URL
     CAPITAL             BIGINT,                     -- 資本金
@@ -107,11 +107,11 @@ CREATE TABLE YM_PARTY (
     ACCOUNT_TYPE        CHAR(1),                    -- 口座種別(1:普通, 2:当座)
     ACCOUNT             VARCHAR(40),                -- 口座
     CUTOFF              INTEGER,                    -- 締日(31:月末)
-    CATEGORY_NO         INTEGER REFERENCES YM_GOODS_CATEGORY(CATEGORY_NO), -- 物品種類
+    CATEGORY_NO         INTEGER,                    -- 物品種類
     DEL_FLG             CHAR(1) DEFAULT '0',        -- 削除フラグ（1:削除済み）
-    REGIST_USER         INTEGER REFERENCES YM_USER(USER_NO),   -- 登録ユーザー(User No.)
+    REGIST_USER         INTEGER,                    -- 登録ユーザー(User No.)
     REGIST_TIME         TIMESTAMP,                  -- 登録日時
-    UPDATE_USER         INTEGER REFERENCES YM_USER(USER_NO),   -- 更新ユーザー(User No.)
+    UPDATE_USER         INTEGER,                    -- 更新ユーザー(User No.)
     UPDATE_TIME         TIMESTAMP,                  -- 更新日時
     VERSION_NO          INTEGER                     -- バージョン番号
 );
@@ -120,15 +120,15 @@ CREATE TABLE YM_PARTY (
 CREATE TABLE YM_PARTY_RELATION (
     RELATION_NO         INTEGER PRIMARY KEY,        -- Party関連No.
     RELATION_TYPE       INTEGER,                    -- Party関連種別
-    PARTY1              INTEGER REFERENCES YM_PARTY(PARTY_NO), -- Party1(Party No.)
+    PARTY1              INTEGER,                    -- Party1(Party No.)
     ROLE1               VARCHAR(30),                -- 役割1
-    PARTY2              INTEGER REFERENCES YM_PARTY(PARTY_NO), -- Party2(Party No.)
+    PARTY2              INTEGER,                    -- Party2(Party No.)
     ROLE2               VARCHAR(30),                -- 役割2
     TERM_FROM           DATE,                       -- 開始日
     TERM_TO             DATE,                       -- 終了日
-    REGIST_USER         INTEGER REFERENCES YM_USER(USER_NO),   -- 登録ユーザー(User No.)
+    REGIST_USER         INTEGER,                    -- 登録ユーザー(User No.)
     REGIST_TIME         TIMESTAMP,                  -- 登録日時
-    UPDATE_USER         INTEGER REFERENCES YM_USER(USER_NO),   -- 更新ユーザー(User No.)
+    UPDATE_USER         INTEGER,                    -- 更新ユーザー(User No.)
     UPDATE_TIME         TIMESTAMP,                  -- 更新日時
     VERSION_NO          INTEGER                     -- バージョン番号
 );
@@ -136,15 +136,15 @@ CREATE TABLE YM_PARTY_RELATION (
 -- イベントビューテーブル
 CREATE TABLE YM_EVENTVIEW (
     EVENTVIEW_NO        INTEGER PRIMARY KEY,        -- イベントビューNo.
-    OWNER               INTEGER REFERENCES YM_USER(USER_NO),   -- オーナー(User No.)
+    OWNER               INTEGER,                    -- オーナー(User No.)
     NAME                VARCHAR(100),               -- 名前
     SEQ                 INTEGER,                    -- 表示順
     JAPANESE_HOLIDAY    CHAR(1) DEFAULT '0',        -- 日本の休日（1:日本の休日を使用する）
     SPREAD_YEARS        VARCHAR(4096),              -- 展開年(yyyy,yyyy,・・・)
     DEL_FLG             CHAR(1) DEFAULT '0',        -- 削除フラグ（1:削除済み）
-    REGIST_USER         INTEGER REFERENCES YM_USER(USER_NO),   -- 登録ユーザー(User No.)
+    REGIST_USER         INTEGER,                    -- 登録ユーザー(User No.)
     REGIST_TIME         TIMESTAMP,                  -- 登録日時
-    UPDATE_USER         INTEGER REFERENCES YM_USER(USER_NO),   -- 更新ユーザー(User No.)
+    UPDATE_USER         INTEGER,                    -- 更新ユーザー(User No.)
     UPDATE_TIME         TIMESTAMP,                  -- 更新日時
     VERSION_NO          INTEGER                     -- バージョン番号
 );
@@ -156,8 +156,8 @@ CREATE TABLE YM_EVENTSET (
     NAME                VARCHAR(100),               -- 名前
     TERM_FROM           DATE,                       -- 期間開始日
     TERM_TO             DATE,                       -- 期間終了日
-    CLIENT              INTEGER REFERENCES YM_PARTY(PARTY_NO), -- クライアント(Party No.)
-    PRODUCER            INTEGER REFERENCES YM_PARTY(PARTY_NO), -- プロデューサー(Party No.)
+    CLIENT              INTEGER,                    -- クライアント(Party No.)
+    PRODUCER            INTEGER,                    -- プロデューサー(Party No.)
     SUNDAY              CHAR(1) DEFAULT '1',        -- 日曜日（1:実施, 0:実施しない）
     SATURDAY            CHAR(1) DEFAULT '1',        -- 土曜日（1:実施, 0:実施しない）
     HOLIDAY             CHAR(1) DEFAULT '1',        -- 祝日（1:実施, 0:実施しない）
@@ -165,24 +165,24 @@ CREATE TABLE YM_EVENTSET (
     EXCLUDE_DAYS        VARCHAR(2048),              -- 非稼動日のリスト(yyyyMMdd,yyyyMMdd,・・・)
     MEMO                VARCHAR(4096),              -- メモ
     UPDATE_AUTH         VARCHAR(2048),              -- 更新権限ユーザーのリスト(User No.,User No.,・・・)
-    OWNER               INTEGER REFERENCES YM_USER(USER_NO),   -- オーナー(User No.)
+    OWNER               INTEGER,                    -- オーナー(User No.)
     DEL_FLG             CHAR(1) DEFAULT '0',        -- 削除フラグ（1:削除済み）
-    REGIST_USER         INTEGER REFERENCES YM_USER(USER_NO),   -- 登録ユーザー(User No.)
+    REGIST_USER         INTEGER,                    -- 登録ユーザー(User No.)
     REGIST_TIME         TIMESTAMP,                  -- 登録日時
-    UPDATE_USER         INTEGER REFERENCES YM_USER(USER_NO),   -- 更新ユーザー(User No.)
+    UPDATE_USER         INTEGER,                    -- 更新ユーザー(User No.)
     UPDATE_TIME         TIMESTAMP,                  -- 更新日時
     VERSION_NO          INTEGER                     -- バージョン番号
 );
 
 -- イベントビューセットテーブル
 CREATE TABLE YM_EVENTVIEWSET (
-    EVENTVIEW           INTEGER REFERENCES YM_EVENTVIEW(EVENTVIEW_NO), -- イベントビューNo.
-    EVENTSET            INTEGER REFERENCES YM_EVENTSET(EVENTSET_NO),   -- イベントセットNo.
+    EVENTVIEW           INTEGER,                    -- イベントビューNo.
+    EVENTSET            INTEGER,                    -- イベントセットNo.
     AUTH_OWNER          CHAR(1) DEFAULT '0',        -- オーナー権限（1:オーナー, 0:オーナーでない）
     AUTH_UPDATE         CHAR(1) DEFAULT '0',        -- 更新権限（1:更新可, 0:更新不可）
-    REGIST_USER         INTEGER REFERENCES YM_USER(USER_NO),   -- 登録ユーザー(User No.)
+    REGIST_USER         INTEGER,                    -- 登録ユーザー(User No.)
     REGIST_TIME         TIMESTAMP,                  -- 登録日時
-    UPDATE_USER         INTEGER REFERENCES YM_USER(USER_NO),   -- 更新ユーザー(User No.)
+    UPDATE_USER         INTEGER,                    -- 更新ユーザー(User No.)
     UPDATE_TIME         TIMESTAMP,                  -- 更新日時
     VERSION_NO          INTEGER,                    -- バージョン番号
     PRIMARY KEY(EVENTVIEW, EVENTSET)
@@ -230,9 +230,9 @@ CREATE TABLE YM_EVENT (
     DELAY_MAIL_E        CHAR(1) DEFAULT '0',        -- 終了遅延メール送信（1:送信）
     NOTICE_MAILS        VARCHAR(2048),              -- メール通知のリスト(yyyyMMddHHmm,yyyyMMddHHmm,・・・)
     DEL_FLG             CHAR(1) DEFAULT '0',        -- 削除フラグ（1:削除済み）
-    REGIST_USER         INTEGER REFERENCES YM_USER(USER_NO),   -- 登録ユーザー(User No.)
+    REGIST_USER         INTEGER,                    -- 登録ユーザー(User No.)
     REGIST_TIME         TIMESTAMP,                  -- 登録日時
-    UPDATE_USER         INTEGER REFERENCES YM_USER(USER_NO),   -- 更新ユーザー(User No.)
+    UPDATE_USER         INTEGER,                    -- 更新ユーザー(User No.)
     UPDATE_TIME         TIMESTAMP,                  -- 更新日時
     VERSION_NO          INTEGER                     -- バージョン番号
 );
