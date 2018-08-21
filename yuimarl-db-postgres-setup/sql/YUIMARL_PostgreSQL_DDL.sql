@@ -18,7 +18,7 @@ CREATE TABLE YM_GENERATED_ID (
 );
 
 -- YUIMARLユーザーテーブル
-CREATE TABLE YM_YUIMARL_USER (
+CREATE TABLE YM_USER (
     USER_NO             INTEGER PRIMARY KEY,        -- User No.
     USER_ID             VARCHAR(10),                -- ユーザーID
     PASSWORD            VARCHAR(128) NOT NULL,      -- パスワード
